@@ -8,9 +8,11 @@ const userRoutes = require("../routes/user");
 
 const app = express();
 
-const allowedOrigins = process.env.CLIENT_URL 
-  ? process.env.CLIENT_URL.split(',').map(url => url.trim())
-  : ["*"];
+const allowedOrigins = [
+  process.env.CLIENT_URL_LOCAL,
+  process.env.CLIENT_URL_PROD,
+  "*"
+].filter(Boolean);
 
 app.use(cors({ 
   origin: function(origin, callback) {
