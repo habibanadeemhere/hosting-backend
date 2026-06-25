@@ -3,15 +3,14 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
-const authRoutes = require("./routes/auth");
-const userRoutes = require("./routes/user");
+const authRoutes = require("../routes/auth");   
+const userRoutes = require("../routes/user");    
 
 const app = express();
 
 app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
-app.use(express.json({ limit: "5mb" })); // bigger limit since avatars are sent as base64
+app.use(express.json({ limit: "5mb" }));
 
-// Cache the DB connection so it's reused across serverless invocations on Vercel
 let isConnected = false;
 const connectDB = async () => {
   if (isConnected) return;
@@ -36,8 +35,4 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 
-
-
-app.get("/", (req, res) => res.send("API Running..."));
-
-export default app;
+module.exports = app;  
